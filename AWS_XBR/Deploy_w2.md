@@ -684,5 +684,5 @@ Viewer protocol policy: Redirect HTTP to HTTPS.
 
 Cache policy: Chọn CachingDisabled (API không nên cache dữ liệu động).
 
-Origin request policy: Chọn AllViewer (Để truyền đủ Header/Cookie về cho BE).
+
 
