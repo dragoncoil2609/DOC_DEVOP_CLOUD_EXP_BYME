@@ -586,61 +586,32 @@ OS (AMI): Chọn hệ điều hành quen thuộc, ví dụ như Ubuntu.
 
 Network settings:
 
-VPC: Bắt buộc phải chọn cùng VPC với con RDS Database của bạn.
+VPC: Bắt buộc phải chọn cùng VPC với con RDS Database.
 
-Subnet: Phải chọn một Public Subnet (để con EC2 này có đường ra Internet và bạn có thể SSH vào nó).
+Subnet: Phải chọn một Public Subnet (để con EC2 này có đường ra Internet để có thể SSH vào nó).
 
-Auto-assign public IP: Chọn Enable (Để lấy một địa chỉ IP Public).
+Auto-assign public IP: Chọn Enable .
 
-Security Group: Tạo mới 1 SG (ví dụ: EC2-Bastion-SG). Mở port 22 (SSH) với Source là My IP (để bạn SSH vào).
+Security Group: Tạo mới 1 SG (ví dụ: EC2-Bastion-SG). Mở port 22 (SSH) với Source là My IP .
 
 Tải file key .pem về và Launch Instance.
 
-Bước 2: Cấu hình Security Group cho RDS
-Để con EC2 có thể "nhìn thấy" và kết nối được vào Database, bạn phải báo cho Database biết sự tồn tại của con EC2 này.
-
-Vào giao diện quản lý con RDS của bạn.
-
-Mở Security Group đang được gắn với RDS đó ra.
-
-Chỉnh sửa Inbound rules:
-
-Type: MySQL/Aurora (3306) hoặc PostgreSQL (5432).
-
-Source: Chọn tên Security Group của con EC2 vừa tạo ở trên (ví dụ: EC2-Bastion-SG).
-
-Bấm Save rules.
-
-Bước 3: SSH vào EC2 và cài đặt DB Client
-Bây giờ hệ thống mạng đã thông. Bạn bắt đầu thao tác trên máy tính của mình:
-
+Bước 2: SSH vào EC2 và cài đặt DB Client
 Mở Terminal (hoặc CMD/PowerShell) và SSH vào con EC2 bằng lệnh:
 
 Bash
 ssh -i "duong-dan-toi-file-key.pem" ubuntu@IP_PUBLIC_CUA_EC2
-Khi đã vào được bên trong màn hình của Ubuntu, con server này hiện tại là "con số 0", chưa biết lệnh MySQL hay PostgreSQL là gì. Bạn cần cài tool (client) để gõ lệnh:
-
-Nếu DB của bạn là MySQL:
+Khi đã vào được bên trong màn hình của Ubuntu
+lệnh cài
+Nếu DB là MySQL:
 
 Bash
 sudo apt update
 sudo apt install mysql-client -y
-Nếu DB của bạn là PostgreSQL:
-
-Bash
-sudo apt update
-sudo apt install postgresql-client -y
-Bước 4: Kết nối vào Database từ bên trong EC2
-Sau khi cài xong, bạn đã có thể gọi trực tiếp đến RDS Endpoint ngay trên Terminal của con EC2.
 
 Lệnh kết nối MySQL:
 
 Bash
 mysql -h THAY_BANG_RDS_ENDPOINT -u THAY_BANG_USERNAME -p
-(Sau khi bấm Enter, nó sẽ yêu cầu bạn nhập Password của DB).
 
-Lệnh kết nối PostgreSQL:
 
-Bash
-psql -h THAY_BANG_RDS_ENDPOINT -U THAY_BANG_USERNAME -d THAY_BANG_TEN_DATABASE
-Lúc này, giao diện Terminal của bạn sẽ chuyển sang môi trường của Database (ví dụ: mysql>). Bạn đã có thể gõ các câu lệnh SQL như SHOW DATABASES; hay SELECT * FROM... trực tiếp ngay tại đây!
