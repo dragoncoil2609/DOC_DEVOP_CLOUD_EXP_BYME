@@ -622,9 +622,9 @@ cần tạo hai khu vực lưu trữ để tách FE và lưu media:
 
 S3 FE: Tạo bucket frontend-web-ecom-lab, tắt Block all public access.
 
-Cấu hình quan trọng: Vào Properties, bật Static website hosting, điền index.html cho cả Index và Error document.
+Vào Properties, bật Static website hosting, điền index.html cho cả Index và Error document.
 
-Phân quyền: Dán Bucket Policy (Allow s3:GetObject) để cho phép CloudFront/Người dùng đọc được file.
+Dán Bucket Policy (Allow s3:GetObject) để cho phép CloudFront/Người dùng đọc được file.
 
 S3 Media: Tạo bucket media-storage-mini-e. Bật ACLs enabled để Backend có quyền cấp phép hiển thị cho từng ảnh sản phẩm khi upload.
 
@@ -652,21 +652,21 @@ Vì FE chạy trên domain của CloudFront (hoặc tên miền riêng), còn BE
 
 Cấu hình biến ENV: Trong danh sách biến môi trường của Backend, tìm biến CORS_ORIGINS.
 
-Giá trị cần điền: Điền domain của CloudFront hoặc tên miền Route 53 đã trỏ vào CloudFront (Ví dụ: https://d3vi8376l3cqh2.cloudfront.net hoặc https://yourdomain.com).
+ Điền domain của CloudFront hoặc tên miền Route 53 đã trỏ vào CloudFront (Ví dụ: https:/d3vi8376l3cqh2.cloudfront.net hoặc https://yourdomain.com).
 
 Lưu ý bỏng tay: không để * trong môi trường Production để đảm bảo bảo mật.
 
 2. Phía Frontend: Cấu hình API Base URL
 Trước khi Build mã nguồn Frontend để upload lên S3, cần cho FE biết  BE ở đâu.
 
-Tìm file cấu hình: Thường là file .env.production hoặc src/config.js trong code FE.
+Tìm file cấu hình thường là file .env.production hoặc src/config.js trong code FE.
 
 Cấu hình: VITE_API_URL hoặc REACT_APP_API_URL = DNS Name của Load Balancer (ALB) (Ví dụ: http://alb-ecom-123456.us-east-1.elb.amazonaws.com).
 
-Lưu ý: Nếu đã cấu hình CloudFront làm proxy cho cả API (Behavior /api/*), thì có thể dùng đường dẫn tương đối hoặc dùng chính domain của CloudFront.
+ lưu ý : Nếu đã cấu hình CloudFront làm proxy cho cả API (Behavior /api/*), thì có thể dùng đường dẫn tương đối hoặc dùng chính domain của CloudFront.
 
-3. Phía CloudFront: Ghép nối API vào một Domain duy nhất (Tùy chọn - Khuyên dùng)
-Để tránh lỗi CORS và làm hệ thống chuyên nghiệp hơn, có thể cấu hình CloudFront để điều hướng cả FE và BE:
+3. Phía CloudFront: Ghép nối API vào một Domain duy nhất 
+Để tránh lỗi CORS có thể cấu hình CloudFront để điều hướng cả FE và BE:
 
 Add Origin: Vào CloudFront Distribution -> Tab Origins -> Create origin.
 
