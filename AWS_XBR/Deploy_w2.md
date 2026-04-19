@@ -91,6 +91,7 @@ JSON
 
 ecsTaskRole: Đây là quyền cấp cho chính mã nguồn ứng dụng (code) của , role này để gắn thêm quyền "Được phép ghi file lên S3".
 
+## BE
 # Tạo VPC
 
 1. 
@@ -614,4 +615,74 @@ Lệnh kết nối MySQL:
 Bash
 mysql -h THAY_BANG_RDS_ENDPOINT -u THAY_BANG_USERNAME -p
 
+## FE
+
+1. S3 Buckets
+cần tạo hai khu vực lưu trữ để tách FE và lưu media:
+
+S3 FE: Tạo bucket frontend-web-ecom-lab, tắt Block all public access.
+
+Cấu hình quan trọng: Vào Properties, bật Static website hosting, điền index.html cho cả Index và Error document.
+
+Phân quyền: Dán Bucket Policy (Allow s3:GetObject) để cho phép CloudFront/Người dùng đọc được file.
+
+S3 Media: Tạo bucket media-storage-mini-e. Bật ACLs enabled để Backend có quyền cấp phép hiển thị cho từng ảnh sản phẩm khi upload.
+
+2. WAF
+Trước khi xuất bản web ra Internet, cần dựng tường lửa để lọc traffic bẩn:
+
+Vào WAF & Shield, tạo một Web ACL mới.
+
+Chọn Resource type là CloudFront distributions.
+
+Thêm các Managed Rule Groups của AWS: Amazon IP Reputation (chặn IP xấu), Core rule set (chặn lỗi phổ biến), và SQL database (chặn SQL Injection).
+
+3. Thiết lập CloudFront Distribution
+Đây là bước quan trọng nhất để kết nối S3 Web với thế giới thông qua lớp bảo mật WAF:
+
+Gắn S3: Tạo Distribution, tại Origin domain, dán đường link Bucket website endpoint từ S3 Web (Ví dụ: http://frontend-web...s3-website...).
+Tại mục Web Application Firewall (WAF), chọn đúng cái Web ACL vừa tạo ở bước trên.
+
+Chọn Redirect HTTP to HTTPS để bắt buộc mã hóa toàn bộ dữ liệu truyền tải.
+
+## matching FE BE
+
+ Phía Backend: Cấu hình CORS (Cross-Origin Resource Sharing)
+Vì FE chạy trên domain của CloudFront (hoặc tên miền riêng), còn BE chạy trên domain của Load Balancer, trình duyệt sẽ chặn các request nếu Backend không cho phép.
+
+Cấu hình biến ENV: Trong danh sách biến môi trường của Backend, tìm biến CORS_ORIGINS.
+
+Giá trị cần điền: Điền domain của CloudFront hoặc tên miền Route 53 đã trỏ vào CloudFront (Ví dụ: https://d3vi8376l3cqh2.cloudfront.net hoặc https://yourdomain.com).
+
+Lưu ý bỏng tay: không để * trong môi trường Production để đảm bảo bảo mật.
+
+2. Phía Frontend: Cấu hình API Base URL
+Trước khi Build mã nguồn Frontend để upload lên S3, cần cho FE biết  BE ở đâu.
+
+Tìm file cấu hình: Thường là file .env.production hoặc src/config.js trong code FE.
+
+Cấu hình: VITE_API_URL hoặc REACT_APP_API_URL = DNS Name của Load Balancer (ALB) (Ví dụ: http://alb-ecom-123456.us-east-1.elb.amazonaws.com).
+
+Lưu ý: Nếu đã cấu hình CloudFront làm proxy cho cả API (Behavior /api/*), thì có thể dùng đường dẫn tương đối hoặc dùng chính domain của CloudFront.
+
+3. Phía CloudFront: Ghép nối API vào một Domain duy nhất (Tùy chọn - Khuyên dùng)
+Để tránh lỗi CORS và làm hệ thống chuyên nghiệp hơn, có thể cấu hình CloudFront để điều hướng cả FE và BE:
+
+Add Origin: Vào CloudFront Distribution -> Tab Origins -> Create origin.
+
+Origin domain: Chọn DNS của Load Balancer (ALB).
+
+Protocol: Chọn HTTP only (vì ALB thường chạy port 80).
+
+Cấu hình Behavior: Sang tab Behaviors -> Create behavior.
+
+Path pattern: Gõ /api/*.
+
+Origin: Chọn cái ALB vừa add ở trên.
+
+Viewer protocol policy: Redirect HTTP to HTTPS.
+
+Cache policy: Chọn CachingDisabled (API không nên cache dữ liệu động).
+
+Origin request policy: Chọn AllViewer (Để truyền đủ Header/Cookie về cho BE).
 
