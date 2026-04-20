@@ -19,10 +19,3 @@
 
 
 ## Bước 4: Lấy Domain miễn phí (Sau khi đã được duyệt)
-1. Khi đã có gói Student, bạn quay lại trang education.github.com/pack:
-
-2. Tìm logo của Name.com hoặc Namecheap.
-
-3. Nhấn "Get access by connecting your GitHub account".
-
-4. Hệ thống sẽ tự động trừ tiền về $0 khi bạn thanh toán domain (thường là đuôi .me, .tech hoặc .rocks).
