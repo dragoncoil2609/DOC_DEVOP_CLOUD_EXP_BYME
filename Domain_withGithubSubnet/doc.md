@@ -19,3 +19,30 @@
 
 
 ## Bước 4: Lấy Domain miễn phí (Sau khi đã được duyệt)
+
+Bước 1: Truy cập trang ưu đãi (Offers)
+Trong ảnh bạn chụp có dòng chữ: "You can access Student Developer Pack offers here". Hãy click vào chữ "here" đó (hoặc truy cập trực tiếp education.github.com/pack/offers).
+
+Đảm bảo bạn đã đăng nhập bằng tài khoản GitHub vừa được xác thực sinh viên.
+
+Bước 2: Chọn nhà cung cấp tên miền
+Tại trang Offers, hãy tìm kiếm từ khóa "domain" (hoặc cuộn xuống tìm). GitHub thường có các đối tác cung cấp tên miền miễn phí 1 năm như sau:
+
+Namecheap: Thường miễn phí 1 năm tên miền .me (rất hợp để làm trang portfolio cá nhân) và chứng chỉ SSL.
+
+.TECH Domains: Miễn phí 1 năm tên miền đuôi .tech (phù hợp cho các dự án kỹ thuật, cloud).
+
+Name.com: Miễn phí 1 năm tên miền và Advanced Security (thường hỗ trợ các đuôi như .live, .rocks, .ninja, v.v.).
+
+Bước 3: Xác thực và Đăng ký (Claim)
+Nhấn vào nút nhận ưu đãi (thường ghi là "Get access by connecting your GitHub account on...") ở thẻ của nhà cung cấp bạn chọn (ví dụ: Namecheap).
+
+Hệ thống sẽ chuyển hướng bạn sang trang web của nhà cung cấp đó.
+
+Trang web sẽ yêu cầu bạn Authorize (Cấp quyền) kết nối với tài khoản GitHub để xác nhận bạn là sinh viên hợp lệ. Hãy nhấn đồng ý.
+
+Sau khi xác thực xong, bạn nhập tên miền muốn đăng ký vào thanh tìm kiếm của họ.
+
+Nếu tên miền chưa có ai đăng ký, bạn thêm vào giỏ hàng (Add to cart). Ở bước thanh toán (Checkout), hệ thống sẽ tự động áp dụng mã giảm giá hoặc trừ tiền về $0.00.
+
+Hoàn tất các thông tin khai báo (họ tên, địa chỉ, email...) để tạo tài khoản quản lý domain là xong.
