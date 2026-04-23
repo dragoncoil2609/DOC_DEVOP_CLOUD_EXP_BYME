@@ -33,6 +33,8 @@ Namecheap: Thường miễn phí 1 năm tên miền .me (rất hợp để làm 
 .TECH Domains: Miễn phí 1 năm tên miền đuôi .tech (phù hợp cho các dự án kỹ thuật, cloud).
 
 Name.com: Miễn phí 1 năm tên miền và Advanced Security (thường hỗ trợ các đuôi như .live, .rocks, .ninja, v.v.).
+![alt text](./static/image5.png)
+
 
 Bước 3: Xác thực và Đăng ký (Claim)
 Nhấn vào nút nhận ưu đãi (thường ghi là "Get access by connecting your GitHub account on...") ở thẻ của nhà cung cấp bạn chọn (ví dụ: Namecheap).
